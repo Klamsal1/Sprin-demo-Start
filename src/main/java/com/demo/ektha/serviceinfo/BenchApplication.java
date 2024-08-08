@@ -1,4 +1,4 @@
-package Ektha.Bench;
+package com.demo.ektha.serviceinfo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
