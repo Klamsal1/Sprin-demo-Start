@@ -5,12 +5,10 @@ import com.demo.ektha.serviceinfo.repositotory.NotesRepositotory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class DemoController {
@@ -29,7 +27,7 @@ public class DemoController {
 //        Notes _notes =notesRepositotory.save(new Notes(notes.getTittle(),notes.getDescription()));
 //        return new ResponseEntity<>(_notes,HttpStatus.CREATED);
 
-        @PostMapping("/add-notes")
+    @PostMapping("/add-notes")
         public ResponseEntity<Notes> addNotes(@RequestBody Notes notes) {
             Notes savedNote = notesRepositotory.save(notes);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedNote);
@@ -42,4 +40,24 @@ public class DemoController {
         return new ResponseEntity<>(notes, HttpStatus.OK);
 
     }
+
+    @GetMapping("/notes/{id}")
+    public ResponseEntity<Notes>getNoteById(@PathVariable Long id){
+
+         Notes notes = notesRepositotory.findById(id).orElse(null);
+         if(notes!=null){
+             return  new ResponseEntity<>(notes,HttpStatus.OK);
+        }else{
+             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+         }
+    }
+
+    @DeleteMapping("/note/{id}")
+    public  ResponseEntity<Notes>deleteNote(Long id){
+     notesRepositotory.deleteById(id);
+     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    }
+
+
 }
